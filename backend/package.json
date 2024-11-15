@@ -8,7 +8,7 @@
     "start": "node src/index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Galarza Milton, Giannico Agustin Luis, Tarpin Juan Ignacio",
   "license": "ISC",
   "description": "",
   "dependencies": {
