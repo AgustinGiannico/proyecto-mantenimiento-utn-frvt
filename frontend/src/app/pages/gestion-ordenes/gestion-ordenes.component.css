@@ -1,14 +1,8 @@
-main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 2rem;
-}
-
 .back-button {
   align-self: flex-start;
   margin-bottom: 1rem;
+  margin-top: 2rem;
+  margin-left: 32px;
   background-color: #8f9dad;
   color: white;
   border: none;
@@ -53,4 +47,33 @@ main {
 .card:hover {
   transform: scale(1.05);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 600px) {
+  .back-button {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    text-align: center;
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  .grid-container {
+    gap: 0.5rem;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .card {
+    max-width: 100%;
+    flex: 1 1 100%;
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .card:hover {
+    transform: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
 }

@@ -13,7 +13,7 @@
 }
 
 .back-button:hover {
-    background-color: #2d333a;
+  background-color: #2d333a;
 }
 
 .grid-container {
@@ -47,4 +47,36 @@
 .card:hover {
   transform: scale(1.05);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 600px) {
+  .back-button {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    text-align: center;
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  .grid-container {
+    gap: 0.5rem;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 100%;
+    flex: 1 1 100%;
+    padding: 0.75rem;
+    font-size: 0.9rem;
+    box-sizing: border-box;
+  }
+
+  .card:hover {
+    transform: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
 }

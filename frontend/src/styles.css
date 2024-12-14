@@ -16,3 +16,15 @@ body {
 .mat-mdc-menu-panel {
     width: 10rem;
 }
+
+@media (max-width: 600px) {
+    .mat-mdc-raised-button {
+        width: 100%;
+        max-width: 8rem;
+    }
+
+    .mat-mdc-menu-panel {
+        width: 100%;
+        max-width: 8rem;
+    }
+}
