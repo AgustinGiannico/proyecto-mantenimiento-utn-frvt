@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { SiteService } from '../../services/site.service';
 import { Site } from '../../interfaces/site';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -15,7 +16,11 @@ export class SiteComponent implements OnInit {
   showForm: boolean = false;
   siteForm: FormGroup;
 
-  constructor(private siteService: SiteService, private fb: FormBuilder) {
+  constructor(
+    private siteService: SiteService, 
+    private fb: FormBuilder, 
+    private location: Location
+  ) {
     this.siteForm = this.fb.group({
       name: ['', Validators.required],
       num_tag: ['', Validators.required]
@@ -24,6 +29,10 @@ export class SiteComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllSites();
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
   getAllSites(): void {

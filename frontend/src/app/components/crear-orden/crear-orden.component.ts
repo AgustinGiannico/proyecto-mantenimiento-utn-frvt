@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Location } from '@angular/common';
 import { OtService } from '../../services/ot.service';
 import { TagService } from '../../services/tag.service';
 import { UserService } from '../../services/user.service';
@@ -51,6 +52,7 @@ export class CrearOrdenComponent implements OnInit {
     request_date: new Date(),
     initial_date: new Date(),
     completion_date: new Date(),
+    completion_time: 0,
     observations: '',
     id_user: 0,
     id_task_list: 0,
@@ -87,8 +89,9 @@ export class CrearOrdenComponent implements OnInit {
     private siteService: SiteService,
     private taskTypeService: TaskTypeService,
     private taskService: TaskService,
-    private taskListService: TaskListService
-  ) {}
+    private taskListService: TaskListService,
+    private location: Location
+  ) { }
 
   ngOnInit(): void {
     this.getOrdenes();
@@ -102,6 +105,10 @@ export class CrearOrdenComponent implements OnInit {
     this.loadSites();
     this.loadTasks();
     this.loadTaskTypes();
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
   getOrdenes(): void {
@@ -211,46 +218,46 @@ export class CrearOrdenComponent implements OnInit {
 
   updateTaskList(): void {
     if (this.selectedOt?.id_asset_type && this.selectedOt?.id_task_type) {
-        const assetTypeId = this.selectedOt.id_asset_type;
-        const taskTypeId = this.selectedOt.id_task_type;
-        console.log("Enviando para obtener la lista de tareas:", { assetTypeId, taskTypeId });
-        this.loadTaskList(assetTypeId, taskTypeId);
+      const assetTypeId = this.selectedOt.id_asset_type;
+      const taskTypeId = this.selectedOt.id_task_type;
+      console.log("Enviando para obtener la lista de tareas:", { assetTypeId, taskTypeId });
+      this.loadTaskList(assetTypeId, taskTypeId);
     } else {
-        console.error("Faltan datos de id_asset_type o id_task_type para cargar la lista de tareas.");
+      console.error("Faltan datos de id_asset_type o id_task_type para cargar la lista de tareas.");
     }
   }
 
   loadTaskList(assetTypeId: number, taskTypeId: number): void {
     this.taskListService.getFilteredTaskList(assetTypeId, taskTypeId).subscribe({
-        next: (taskLists) => {
-            if (taskLists.length > 0) {
-                const taskList = taskLists[0];
-                this.selectedOt!.id_task_list = taskList.id_task_list;
-                this.selectedTaskListSteps = [
-                    taskList.step_1,
-                    taskList.step_2,
-                    taskList.step_3,
-                    taskList.step_4,
-                    taskList.step_5,
-                    taskList.step_6,
-                    taskList.step_7,
-                    taskList.step_8,
-                    taskList.step_9,
-                    taskList.step_10
-                ].filter((step) => step);
-                console.log("Pasos de la lista de tareas seleccionada:", this.selectedTaskListSteps);
-                console.log("ID de Task List asignado a selectedOt:", this.selectedOt!.id_task_list);
-            } else {
-                this.selectedTaskListSteps = [];
-                this.selectedOt!.id_task_list = 0;
-                console.log("No se encontró ninguna lista de tareas para los criterios seleccionados.");
-            }
-        },
-        error: (error) => {
-            console.error("Error al cargar la lista de tareas:", error);
+      next: (taskLists) => {
+        if (taskLists.length > 0) {
+          const taskList = taskLists[0];
+          this.selectedOt!.id_task_list = taskList.id_task_list;
+          this.selectedTaskListSteps = [
+            taskList.step_1,
+            taskList.step_2,
+            taskList.step_3,
+            taskList.step_4,
+            taskList.step_5,
+            taskList.step_6,
+            taskList.step_7,
+            taskList.step_8,
+            taskList.step_9,
+            taskList.step_10
+          ].filter((step) => step);
+          console.log("Pasos de la lista de tareas seleccionada:", this.selectedTaskListSteps);
+          console.log("ID de Task List asignado a selectedOt:", this.selectedOt!.id_task_list);
+        } else {
+          this.selectedTaskListSteps = [];
+          this.selectedOt!.id_task_list = 0;
+          console.log("No se encontró ninguna lista de tareas para los criterios seleccionados.");
         }
+      },
+      error: (error) => {
+        console.error("Error al cargar la lista de tareas:", error);
+      }
     });
-}
+  }
 
   onPriorityChange(): void {
     console.log("ID de prioridad seleccionada:", this.selectedOt?.id_priority);
@@ -261,24 +268,28 @@ export class CrearOrdenComponent implements OnInit {
     console.log("Descripción de la prioridad seleccionada en onPriorityChange:", this.selectedPriorityDescription);
   }
 
-  formatDate(date: Date): string {
-    return date.toISOString().slice(0, 19).replace('T', ' ');
-  }
-
   createOt(): void {
     if (this.selectedOt) {
-      const requestDate = typeof this.selectedOt.request_date === 'string' ? new Date(this.selectedOt.request_date) : this.selectedOt.request_date;
-      const initialDate = typeof this.selectedOt.initial_date === 'string' ? new Date(this.selectedOt.initial_date) : this.selectedOt.initial_date;
-      const completionDate = this.selectedOt.completion_date
-        ? (typeof this.selectedOt.completion_date === 'string' ? new Date(this.selectedOt.completion_date) : this.selectedOt.completion_date)
-        : null;
+        const currentDate = new Date();
+        this.selectedOt.request_date = currentDate;
 
+        console.log("Datos enviados al backend:", this.selectedOt);
 
-      this.selectedOt.request_date = this.formatDate(requestDate || new Date());
-      this.selectedOt.initial_date = this.formatDate(initialDate || new Date());
-      this.selectedOt.completion_date = completionDate ? this.formatDate(completionDate) : null;
+        this.otService.create(this.selectedOt).subscribe({
+            next: (newOt) => {
+                this.ordenCreada.emit(newOt);
+                this.resetForm();
+                console.log("OT creada exitosamente en la base de datos:", newOt);
+            },
+            error: (err) => console.error("Error al guardar la OT:", err),
+        });
+    }
+}
 
+  createOrUpdateOt(): void {
+    this.onPriorityChange();
 
+    if (!this.selectedOt?.id_ot) {
       this.otService.create(this.selectedOt!).subscribe({
         next: (newOt) => {
           this.ordenCreada.emit(newOt);
@@ -287,46 +298,31 @@ export class CrearOrdenComponent implements OnInit {
         },
         error: (err) => console.error("Error al guardar la OT:", err)
       });
+    } else {
+      console.error("ID de OT ya existe, no se puede crear nuevamente.");
     }
   }
 
-createOrUpdateOt(): void {
-  this.onPriorityChange();
-
-
-  if (!this.selectedOt?.id_ot) {
-      this.otService.create(this.selectedOt!).subscribe({
-          next: (newOt) => {
-              this.ordenCreada.emit(newOt);
-              this.resetForm();
-              console.log("OT creada exitosamente en la base de datos:", newOt);
-          },
-          error: (err) => console.error("Error al guardar la OT:", err)
-      });
-  } else {
-      console.error("ID de OT ya existe, no se puede crear nuevamente.");
-  }
-}
-
-generatePdfOnly(): void {
+  generatePdfOnly(): void {
     this.generatePDF();
-}
+  }
 
   resetForm(): void {
     this.selectedOt = {
-        id_ot: 0,
-        order_number: '',
-        request_date: new Date(),
-        initial_date: new Date(),
-        completion_date: new Date(),
-        observations: '',
-        id_user: 0,
-        id_task_list: 0,
-        id_priority: 0,
-        id_ot_state: 1,
-        id_tag: 0,
-        id_task_type: 0,
-        id_asset_type: 0,
+      id_ot: 0,
+      order_number: '',
+      request_date: new Date(),
+      initial_date: new Date(),
+      completion_date: new Date(),
+      completion_time: 0,
+      observations: '',
+      id_user: 0,
+      id_task_list: 0,
+      id_priority: 0,
+      id_ot_state: 1,
+      id_tag: 0,
+      id_task_type: 0,
+      id_asset_type: 0,
     };
     this.isEditing = false;
     this.selectedAssetTypeName = '';
@@ -335,7 +331,7 @@ generatePdfOnly(): void {
     this.selectedSector = '';
     this.selectedSite = '';
     this.selectedTaskListSteps = [];
-}
+  }
 
   getTaskTypeName(id: number | null): string {
     const taskType = this.taskTypes.find(tt => tt.id_task_type === id);

@@ -1,4 +1,5 @@
 <div class="floor-container">
+  <button class="back-button" (click)="goBack()">Volver Atrás</button>
   <h1 class="title">Gestión de Pisos</h1>
 
   <div *ngIf="message" class="message">{{ message }}</div>
@@ -20,7 +21,6 @@
         <td>{{ floor.num_tag }}</td>
         <td>{{ floor.available }}</td>
         <td>
-          <button class="details-button" (click)="getFloorById(floor.id_floor)">Detalles</button>
           <button class="edit-button" (click)="selectFloorForEdit(floor)">Editar</button>
           <button class="delete-button" (click)="deleteFloor(floor.id_floor)">Eliminar</button>
         </td>

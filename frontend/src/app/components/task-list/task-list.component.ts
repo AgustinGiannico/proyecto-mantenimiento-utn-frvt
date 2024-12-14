@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TaskListService } from '../../services/task-list.service';
 import { TaskList } from '../../interfaces/task-list';
@@ -18,7 +19,6 @@ export class TaskListComponent implements OnInit {
   currentPage: number = 1;
   itemsPerPage: number = 10;
   totalPages: number = 1;
-
   steps = [
     { label: 'Paso 1', field: 'step_1' as keyof TaskList },
     { label: 'Paso 2', field: 'step_2' as keyof TaskList },
@@ -32,7 +32,11 @@ export class TaskListComponent implements OnInit {
     { label: 'Paso 10', field: 'step_10' as keyof TaskList }
   ];
 
-  constructor(private taskListService: TaskListService, private fb: FormBuilder) {
+  constructor(
+    private taskListService: TaskListService, 
+    private fb: FormBuilder, 
+    private location: Location
+  ) {
     this.taskListForm = this.fb.group({
       id_task_list: [null],
       id_asset_type: [null, Validators.required],
@@ -54,6 +58,10 @@ export class TaskListComponent implements OnInit {
     this.getAllTaskLists();
   }
 
+  goBack(): void {
+    this.location.back();
+  }
+
   getAllTaskLists(): void {
     this.taskListService.getAll().subscribe({
       next: (taskLists) => {
@@ -63,7 +71,7 @@ export class TaskListComponent implements OnInit {
       },
       error: (err) => console.error('Error fetching task lists:', err)
     });
-}
+  }
 
   openCreateForm(): void {
     this.selectedTaskList = null;

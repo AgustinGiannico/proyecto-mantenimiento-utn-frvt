@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OtService } from '../../services/ot.service';
 import { Ot } from '../../interfaces/ot';
@@ -15,19 +16,22 @@ export class OtComponent implements OnInit {
   selectedOt: Ot | null = null;
   message: string | null = null;
   showForm: boolean = false;
-
-
   currentPage: number = 1;
   itemsPerPage: number = 10;
   totalPages: number = 1;
 
-  constructor(private otService: OtService, private fb: FormBuilder) {
+  constructor(
+    private otService: OtService, 
+    private fb: FormBuilder, 
+    private location: Location
+  ) {
     this.otForm = this.fb.group({
       id_ot: [null],
       order_number: ['', Validators.required],
-      request_date: ['', Validators.required],
+      request_date: [''],
       initial_date: [''],
       completion_date: [''],
+      completion_time: [''],
       observations: [''],
       id_user: [null, Validators.required],
       id_task_list: [null, Validators.required],
@@ -41,6 +45,10 @@ export class OtComponent implements OnInit {
     this.getAllOts();
   }
 
+  goBack(): void {
+    this.location.back();
+  }
+
   getAllOts(): void {
     this.otService.getAll().subscribe({
       next: (ots) => {
@@ -52,7 +60,6 @@ export class OtComponent implements OnInit {
       }
     });
   }
-
 
   updatePagination(): void {
     this.totalPages = Math.ceil(this.ots.length / this.itemsPerPage);

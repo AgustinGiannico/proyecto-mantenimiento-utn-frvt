@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { SectorService } from '../../services/sector.service';
 import { Sector } from '../../interfaces/sector';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -15,12 +16,15 @@ export class SectorComponent implements OnInit {
   message: string | null = null;
   showForm: boolean = false;
   selectedSector: Sector | null = null;
-
   currentPage: number = 1;
   itemsPerPage: number = 10;
   totalPages: number = 1;
 
-  constructor(private sectorService: SectorService, private formBuilder: FormBuilder) {
+  constructor(
+    private sectorService: SectorService, 
+    private formBuilder: FormBuilder, 
+    private location: Location
+  ) {
     this.sectorForm = this.formBuilder.group({
       id_sector: [null],
       name: ['', Validators.required],
@@ -32,6 +36,10 @@ export class SectorComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllSectors();
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
   getAllSectors(): void {

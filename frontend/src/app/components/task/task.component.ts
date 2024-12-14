@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TaskService } from '../../services/task.service';
 import { Task } from '../../interfaces/task';
@@ -15,12 +16,15 @@ export class TaskComponent implements OnInit {
   selectedTask: Task | null = null;
   message: string | null = null;
   showForm: boolean = false;
-
   currentPage: number = 1;
   itemsPerPage: number = 10;
   totalPages: number = 1;
 
-  constructor(private taskService: TaskService, private fb: FormBuilder) {
+  constructor(
+    private taskService: TaskService, 
+    private fb: FormBuilder, 
+    private location: Location
+  ) {
     this.taskForm = this.fb.group({
       id_task: [null],
       description: ['', Validators.required]
@@ -29,6 +33,10 @@ export class TaskComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllTasks();
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
   getAllTasks(): void {
@@ -42,7 +50,6 @@ export class TaskComponent implements OnInit {
       }
     });
   }
-
 
   updatePagination(): void {
     this.totalPages = Math.ceil(this.tasks.length / this.itemsPerPage);

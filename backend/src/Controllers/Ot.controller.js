@@ -184,7 +184,7 @@ export const getOt = async (req, res) => {
 };
 
 export const createOt = async (req, res) => {
-    const { request_date, initial_date, completion_date, completion_time, observations, id_user, id_tag, id_task_list, id_priority } = req.body;
+    const { request_date, observations, id_user, id_tag, id_task_list, id_priority } = req.body;
     const id_ot_state = 6;
 
     try {
@@ -213,14 +213,11 @@ export const createOt = async (req, res) => {
         const order_number = orderNumberConcat[0].order_number;
 
         const [rows] = await pool.query(`
-            INSERT INTO ots (order_number, request_date, initial_date, completion_date, completion_time, observations, id_user, id_tag, id_task_list, id_priority, id_ot_state) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+            INSERT INTO ots (order_number, request_date, observations, id_user, id_tag, id_task_list, id_priority, id_ot_state) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?);
         `, [
             order_number,
             request_date,
-            initial_date,
-            completion_date,
-            completion_time,
             observations,
             id_user,
             id_tag,
@@ -233,9 +230,6 @@ export const createOt = async (req, res) => {
             id: rows.insertId,
             order_number,
             request_date,
-            initial_date,
-            completion_date,
-            completion_time,
             observations,
             id_user,
             id_tag,

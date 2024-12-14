@@ -1,10 +1,33 @@
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 1rem;
-  padding: 2rem;
-  justify-content: center;
+main {
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
+  padding: 2rem;
+}
+
+.back-button {
+  align-self: flex-start;
+  margin-bottom: 1rem;
+  background-color: #8f9dad;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.back-button:hover {
+  background-color: #2d333a;
+}
+
+.grid-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  width: 100%;
 }
 
 .card {
@@ -18,6 +41,8 @@
   color: #333;
   transition: transform 0.2s ease;
   cursor: pointer;
+  flex: 1 1 150px;
+  max-width: 200px;
 }
 
 .card small {

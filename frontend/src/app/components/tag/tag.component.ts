@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TagService } from '../../services/tag.service';
 import { Tag } from '../../interfaces/tag';
@@ -15,13 +16,15 @@ export class TagComponent implements OnInit {
   selectedTag: Tag | null = null;
   message: string | null = null;
   showForm: boolean = false;
-
-
   currentPage: number = 1;
   itemsPerPage: number = 10;
   totalPages: number = 1;
 
-  constructor(private tagService: TagService, private fb: FormBuilder) {
+  constructor(
+    private tagService: TagService, 
+    private fb: FormBuilder, 
+    private location: Location
+  ) {
     this.tagForm = this.fb.group({
       id_tag: [null],
       final_tag: ['', Validators.required],
@@ -38,6 +41,10 @@ export class TagComponent implements OnInit {
     this.getAllTags();
   }
 
+  goBack(): void {
+    this.location.back();
+  }
+
   getAllTags(): void {
     this.tagService.getAll().subscribe({
       next: (tags) => {
@@ -49,7 +56,6 @@ export class TagComponent implements OnInit {
       }
     });
   }
-
 
   updatePagination(): void {
     this.totalPages = Math.ceil(this.tags.length / this.itemsPerPage);

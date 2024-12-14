@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core'; 
+import { Location } from '@angular/common';
 import { FloorService } from '../../services/floor.service';
 import { Floor } from '../../interfaces/floor';
 
@@ -15,10 +16,17 @@ export class FloorComponent implements OnInit {
   creatingFloor: boolean = false;
   message: string | null = null;
 
-  constructor(private floorService: FloorService) {}
+  constructor(
+    private floorService: FloorService,
+    private location: Location
+  ) {}
 
   ngOnInit(): void {
     this.getAllFloors();
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
   getAllFloors(): void {
@@ -89,5 +97,4 @@ export class FloorComponent implements OnInit {
     this.clearForm();
     this.creatingFloor = true;
   }
-  
 }

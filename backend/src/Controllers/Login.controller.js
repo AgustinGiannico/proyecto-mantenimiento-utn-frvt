@@ -30,10 +30,10 @@ export const loginUser = async (req, res) => {
 
         res.cookie('jwt', token, {
             maxAge: 1000 * 60 * 60,
-            httpOnly: true,
-            secure: true,
-            sameSite: 'lax'
-        })
+            httpOnly: false,     
+            secure: false, 
+            sameSite: 'Lax', 
+        });
 
         res.status(200).json({ message: 'Inicio de sesión exitoso', token, isAdmin: user.admin === 1 });
 

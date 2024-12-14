@@ -1,4 +1,5 @@
 <div class="task-list-container">
+  <button class="back-button" (click)="goBack()">Volver Atrás</button>
   <h1 class="title">Gestión de Listas de Tareas</h1>
 
   <div *ngIf="message" class="message">{{ message }}</div>
@@ -18,8 +19,8 @@
     <tbody>
       <tr *ngFor="let taskList of paginatedTaskLists" class="task-list-row">
         <td>{{ taskList.id_task_list }}</td>
-        <td>{{ taskList.asset_type_name !== 'NA' ? taskList.asset_type_name : '-' }}</td> <!-- Condición para mostrar "-" -->
-        <td>{{ taskList.task_type_name !== 'NA' ? taskList.task_type_name : '-' }}</td> <!-- Condición para mostrar "-" -->
+        <td>{{ taskList.asset_type_name !== 'NA' ? taskList.asset_type_name : '-' }}</td>
+        <td>{{ taskList.task_type_name !== 'NA' ? taskList.task_type_name : '-' }}</td>
         <td>
           <div *ngFor="let step of steps">
             {{ step.label }}: {{ taskList[step.field] !== 'NA' ? taskList[step.field] : '-' }}

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-gestion-infraestructura',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./gestion-infraestructura.component.css']
 })
 export class GestionInfraestructuraComponent {
+  constructor(private location: Location){}
 
+  goBack(): void {
+    this.location.back();
+  }
 }

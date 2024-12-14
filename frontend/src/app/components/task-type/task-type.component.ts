@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TaskTypeService } from '../../services/task-type.service';
 import { TaskType } from '../../interfaces/task-type';
@@ -15,13 +16,15 @@ export class TaskTypeComponent implements OnInit {
   selectedTaskType: TaskType | null = null;
   message: string | null = null;
   showForm: boolean = false;
-
-
   currentPage: number = 1;
   itemsPerPage: number = 10;
   totalPages: number = 1;
 
-  constructor(private taskTypeService: TaskTypeService, private fb: FormBuilder) {
+  constructor(
+    private taskTypeService: TaskTypeService, 
+    private fb: FormBuilder, 
+    private location: Location
+  ) {
     this.taskTypeForm = this.fb.group({
       id_task_type: [null],
       name: ['', Validators.required],
@@ -31,6 +34,10 @@ export class TaskTypeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllTaskTypes();
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
   getAllTaskTypes(): void {

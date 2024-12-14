@@ -5,8 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
-
-
+import { RouterModule } from '@angular/router';
 
 import { HeaderComponent } from './pages/header/header.component';
 import { AppComponent } from './app.component';
@@ -29,6 +28,7 @@ import { OtComponent } from './components/ot/ot.component';
 import { CrearOrdenComponent } from './components/crear-orden/crear-orden.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { OtOperarioComponent } from './components/ot-operario/ot-operario.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +53,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
     CrearOrdenComponent,
     LogoutComponent,
     NotFoundComponent,
+    OtOperarioComponent,
 
   ],
   imports: [
@@ -61,7 +62,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-
+    RouterModule
   ],
   providers: [CookieService],
   bootstrap: [AppComponent],

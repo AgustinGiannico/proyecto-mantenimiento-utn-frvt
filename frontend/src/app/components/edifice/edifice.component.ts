@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { EdificeService } from '../../services/edifice.service';
 import { Edifice } from '../../interfaces/edifice';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -17,7 +18,8 @@ export class EdificeComponent implements OnInit {
 
   constructor(
     private edificeService: EdificeService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private location: Location
   ) {
     this.edificeForm = this.fb.group({
       name: ['', Validators.required],
@@ -34,6 +36,9 @@ export class EdificeComponent implements OnInit {
     this.getAllEdifices();
   }
 
+  goBack(): void {
+    this.location.back();
+  }
 
   getAllEdifices(): void {
     this.edificeService.getAll().subscribe({
@@ -46,7 +51,6 @@ export class EdificeComponent implements OnInit {
       }
     });
   }
-
 
   getEdificeById(id: number): void {
     this.edificeService.getById(id).subscribe({
@@ -96,7 +100,6 @@ export class EdificeComponent implements OnInit {
           }
         });
       } else {
-        // Create logic
         this.edificeService.create(this.edificeForm.value).subscribe({
           next: () => {
             this.message = 'Edifice created successfully';

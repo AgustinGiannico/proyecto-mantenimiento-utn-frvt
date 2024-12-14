@@ -1,9 +1,10 @@
 export interface Ot {
     id_ot: number;
     order_number: string;
-    request_date: Date | string;
-    initial_date: Date | string;
-    completion_date: Date | string | null;
+    request_date: string | Date;
+    initial_date: string | Date;
+    completion_date: string | Date;
+    completion_time: number;
     observations: string;
     id_user: number;
     id_task_list: number;

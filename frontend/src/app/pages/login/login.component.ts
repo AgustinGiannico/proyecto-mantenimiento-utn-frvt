@@ -15,7 +15,6 @@ export class LoginComponent {
 
   formLogin: FormGroup;
 
-
   constructor(
     private formbuilder: FormBuilder,
     private enviarDatosServicio: EnviarDatosService,
@@ -23,7 +22,6 @@ export class LoginComponent {
     private cookieService: CookieService
   ) {
 
-    //FORMULARIO
     this.formLogin = this.formbuilder.group({
 
       email: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(40), Validators.pattern(emailPattern)]],
@@ -31,9 +29,7 @@ export class LoginComponent {
       password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(30), Validators.pattern(passwordPattern)]],
 
     });
-
   }
-
 
   enviarDatos() {
     if (this.formLogin.valid) {
@@ -44,10 +40,8 @@ export class LoginComponent {
             const expireDate = new Date();
             expireDate.setHours(expireDate.getHours() + 1);
 
-
             this.cookieService.set('jwt', response.token, { expires: expireDate, secure: false, sameSite: 'Lax' });
           }
-
 
           this.router.navigate(['/']);
         },

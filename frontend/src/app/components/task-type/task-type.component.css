@@ -1,3 +1,19 @@
+.back-button {
+  align-self: flex-start;
+  margin-bottom: 1rem;
+  background-color: #8f9dad;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.back-button:hover {
+  background-color: #2d333a;
+}
+
 .task-type-container {
   background-color: #f0f0f0;
   padding: 20px;
@@ -97,7 +113,6 @@ button {
 .create-button:hover {
   background-color: #005f6b;
 }
-
 
 .form-container {
   background-color: white;

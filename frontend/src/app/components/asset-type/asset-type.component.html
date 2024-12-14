@@ -1,4 +1,5 @@
 <div class="asset-type-container">
+  <button class="back-button" (click)="goBack()">Volver Atrás</button>
   <h1 class="title">Gestión de Tipos de Activo</h1>
 
   <div *ngIf="message" class="message">{{ message }}</div>
@@ -28,7 +29,6 @@
       </tr>
     </tbody>
   </table>
-
 
   <div class="pagination">
     <button (click)="prevPage()" [disabled]="currentPage === 1">&lt; Anterior</button>

@@ -5,36 +5,14 @@ body {
 
 body {
     margin: 0;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-family: 'Roboto', "Helvetica Neue", sans-serif;
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .mat-mdc-raised-button {
-    border-radius: 0.5rem !important;
-    width: 10rem !important;
+    border-radius: 0.5rem;
+    width: 10rem;
 }
 
 .mat-mdc-menu-panel {
-    width: 10rem !important;
+    width: 10rem;
 }
-
-
-
-

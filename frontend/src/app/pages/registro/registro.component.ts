@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { emailPattern, passwordPattern } from 'src/app/auth/validators/validators';
 import { EnviarDatosService } from '../../auth/enviar-datos.service';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
@@ -17,15 +19,20 @@ export class RegistroComponent {
     private formBuilder: FormBuilder,
     private enviarDatosServicio: EnviarDatosService,
     private router: Router,
-    private cookieService: CookieService
+    private cookieService: CookieService, 
+    private location: Location
   ) {
     this.formRegistro = this.formBuilder.group({
       username: ['', Validators.required],
       last_name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
+      email: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(40), Validators.pattern(emailPattern)]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(30), Validators.pattern(passwordPattern)]],
       admin: [0, Validators.required]
     });
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
   enviarDatos() {

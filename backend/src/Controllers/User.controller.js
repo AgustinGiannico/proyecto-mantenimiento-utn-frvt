@@ -73,11 +73,12 @@ export const updateUser = async (req, res) => {
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
 
-        res.json({ message: 'Usuario actualizado exitosamente', user: rows[0] });
+        res.json({ message: 'Usuario actualizado exitosamente' });
     } catch (error) {
         res.status(500).json({ message: 'Error al actualizar el usuario', error: error.message });
     }
-}
+};
+
 
 export const deleteUser = async (req, res) => {
     const { id } = req.params;

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { AssetTypeService } from '../../services/asset-type.service';
 import { AssetType } from '../../interfaces/asset-type';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -21,7 +22,11 @@ export class AssetTypeComponent implements OnInit {
   itemsPerPage: number = 10;
   totalPages: number = 1;
 
-  constructor(private assetTypeService: AssetTypeService, private formBuilder: FormBuilder) {
+  constructor(
+    private assetTypeService: AssetTypeService, 
+    private formBuilder: FormBuilder, 
+    private location: Location
+  ) {
     this.assetTypeForm = this.formBuilder.group({
       id_asset_type: [null],
       name: ['', Validators.required],
@@ -35,6 +40,10 @@ export class AssetTypeComponent implements OnInit {
     this.getAllAssetTypes();
   }
 
+  goBack(): void {
+    this.location.back();
+  }
+
   getAllAssetTypes(): void {
     this.assetTypeService.getAll().subscribe({
       next: (data) => {
@@ -44,7 +53,6 @@ export class AssetTypeComponent implements OnInit {
       error: (err) => this.message = 'Error al cargar los tipos de activo'
     });
   }
-
 
   updatePagination(): void {
     this.totalPages = Math.ceil(this.assetTypes.length / this.itemsPerPage);
