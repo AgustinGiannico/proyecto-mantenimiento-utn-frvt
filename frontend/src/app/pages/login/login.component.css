@@ -75,10 +75,18 @@
     border: none;
 }
 
-.message {
-    margin-bottom: 1rem;
-    color: #ff0000;
+.mensaje-container {
+    margin-bottom: 15px;
     text-align: center;
+    font-size: 14px;
+}
+
+.mensaje-container.error {
+    color: red;
+}
+
+.mensaje-container.exito {
+    color: green;
 }
 
 .enabled {

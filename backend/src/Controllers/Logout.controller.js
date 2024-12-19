@@ -4,9 +4,9 @@ export const closeSession = (req, res) => {
     }
 
     res.clearCookie('jwt', {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'Strict',
+        httpOnly: false,
+        secure: false,
+        sameSite: 'Lax',
         path: '/',
     });
 

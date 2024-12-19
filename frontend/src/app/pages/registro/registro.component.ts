@@ -14,6 +14,7 @@ import { CookieService } from 'ngx-cookie-service';
 export class RegistroComponent {
   formRegistro: FormGroup;
   message: string = '';
+  messageType: 'error' | 'success' = 'error';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -39,21 +40,27 @@ export class RegistroComponent {
     if (this.formRegistro.valid) {
       this.enviarDatosServicio.enviarFormularioRegistro(this.formRegistro.value).subscribe({
         next: (response) => {
-          console.log('Usuario registrado:', response);
-          this.message = response.message || 'Registro exitoso';
-          if (response['success']) {
+          this.messageType = 'success';
+          this.message = response.message || 'Usuario registrado exitosamente';
+          setTimeout(() => {
             this.router.navigate(['/']);
-          }
+          }, 2000);
         },
         error: (error) => {
+          this.messageType = 'error';
+          if (error.status === 400) {
+            this.message = error.error?.error || 'El correo ya está registrado.';
+          } else {
+            this.message = 'Error al registrar el usuario. Por favor, intente más tarde.';
+          }
           console.error('Error al registrar el usuario:', error);
-          this.message = error.status === 401 ? 'No se pudo autenticar el usuario.' : error.error?.error || 'Error al registrar el usuario';
         },
         complete: () => {
           console.info('Registro enviado con éxito.');
         },
       });
     } else {
+      this.messageType = 'error';
       this.message = 'Complete todos los campos correctamente.';
       console.warn('Datos no enviados, verifique los requisitos o contacte al administrador.');
     }

@@ -17,6 +17,9 @@ export class OtOperarioComponent implements OnInit {
   itemsPerPage: number = 10;
   totalPages: number = 1;
 
+  showModal: boolean = false;
+  selectedOt: Ot | null = null;
+
   constructor(
     private otService: OtService,
     private enviarDatosService: EnviarDatosService,
@@ -113,5 +116,15 @@ export class OtOperarioComponent implements OnInit {
       this.currentPage--;
       this.updatePaginatedOts();
     }
+  }
+
+  showCompleteInfo(ot: Ot): void {
+    this.selectedOt = ot;
+    this.showModal = true;
+  }
+
+  closeModal(): void {
+    this.showModal = false;
+    this.selectedOt = null;
   }
 }

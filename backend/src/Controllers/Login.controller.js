@@ -35,7 +35,7 @@ export const loginUser = async (req, res) => {
             sameSite: 'Lax', 
         });
 
-        res.status(200).json({ message: 'Inicio de sesión exitoso', token, isAdmin: user.admin === 1 });
+        res.status(200).json({ message: 'Inicio de sesión exitoso', isAdmin: user.admin === 1 });
 
     } catch (error) {
         console.error('Error al procesar el login: ' + error);

@@ -79,10 +79,17 @@ select.inputStyle option {
 }
 
 .message {
-  margin-top: 1rem;
+  margin-bottom: 15px;
   text-align: center;
-  color: #ff0000;
-  font-weight: bold;
+  font-size: 14px;
+}
+
+.message.error {
+  color: red;
+}
+
+.message.success {
+  color: green;
 }
 
 .enabled {
